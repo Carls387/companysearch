@@ -13,19 +13,12 @@ app.post('/search', (req, res) => {
   const companyName = req.body.company;
   if (!companyName) return res.status(400).json({ error: 'Company name is required' });
 
- exec(`node scraper.js "${companyName}"`, (error, stdout, stderr) => {
-  if (error) {
-    console.error(`exec error: ${error.message}`);
-    console.error(`stderr: ${stderr}`);
-    return res.status(500).json({ error: 'Scraper failed to run' });
-  }
-
-  fs.readFile('results.json', 'utf8', (err, data) => {
-    if (err) return res.status(500).json({ error: 'Failed to read results' });
-    res.json(JSON.parse(data));
-  });
-});
-
+  exec(`node scraper.js "${companyName}"`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error.message}`);
+      console.error(`stderr: ${stderr}`);
+      return res.status(500).json({ error: 'Scraper failed to run' });
+    }
 
     fs.readFile('results.json', 'utf8', (err, data) => {
       if (err) return res.status(500).json({ error: 'Failed to read results' });

@@ -1,13 +1,12 @@
 services:
   - type: web
-    name: sourcing-tool-mvp
+    name: companysearch
     env: node
-    buildCommand: npm install
-    startCommand: npm start
     plan: free
-    shell: bash
-    healthCheckPath: /
-    exec: node server.js
-    # Playwright deps install
-    preBuildCommands:
-      - npx playwright install-deps
+    buildCommand: |
+      npm install
+      npx playwright install --with-deps
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
